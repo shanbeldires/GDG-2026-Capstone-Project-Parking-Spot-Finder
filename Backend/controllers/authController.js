@@ -36,27 +36,15 @@ export const login = async (req, res,) => {
       REFRESH_TOKEN_SECRET_KEY,
       {expiresIn:REFRESH_TOKEN_EXPIRES_IN}
     )
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      maxAge: 15 * 60 * 1000,
-      secure:false,
-      sameSite:"strict"
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure:false,
-      sameSite:"strict"
-    });
     const hashedRefreshToken = crypto.createHash("sha256").update(refreshToken).digest("hex");
     const expiresAt =new Date();
     expiresAt.setDate(expiresAt.getDate() + 90);
-    const savedRefreshToken =  RefreshToken.findOneAndUpdate({
-      userId: user._id,
-      token: hashedRefreshToken,
-      expiresAt,
-      upsert: true, new: true ,
-    });
+   
+    const savedRefreshToken = await RefreshToken.findOneAndUpdate(
+      {userId: user._id},
+     { token: hashedRefreshToken,expiresAt},
+      {upsert: true, new: true },
+    );
     return res.status(200).json({message:"logged in successfully",accessToken,refreshToken });
 
   } catch (error) {
@@ -100,26 +88,15 @@ export const signup = async (req, res, ) => {
       REFRESH_TOKEN_SECRET_KEY,
       {expiresIn:REFRESH_TOKEN_EXPIRES_IN}
     )
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      maxAge: 15 * 60 * 1000,
-      secure:false,
-      sameSite:"strict"
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      secure:false,
-      sameSite:"strict"
-    });
     const hashedRefreshToken = crypto.createHash("sha256").update(refreshToken).digest("hex");
     const expiresAt =new Date();
     expiresAt.setDate(expiresAt.getDate() + 90);
-    const savedRefreshToken = RefreshToken.findOneAndUpdate({
-      userId: savedUser._id,
-      token: hashedRefreshToken,
-      expiresAt
-    });
+   
+    const savedRefreshToken = await RefreshToken.findOneAndUpdate(
+      {userId: savedUser._id},
+      { token: hashedRefreshToken,expiresAt},
+      {upsert: true, new: true },
+    );
     
     return res.status(201).json({message:"user created successfully",data:savedUser,accessToken,refreshToken  });
 
@@ -131,12 +108,12 @@ export const signup = async (req, res, ) => {
 };  
 export const AccessRefreshToken = async (req, res, ) => {
   try{
-    const refreshToken = req.cookies.refreshToken;
+    const {refreshToken} = req.body;
     if (!refreshToken) {
       return  res.status(401).json({ error: "refresh token not found" });
       }
     const hashedRefreshToken = crypto.createHash("sha256").update(refreshToken).digest("hex");
-    const refreshTokenDoc = await RefreshToken.findOne({ token: hashedRefreshToken });
+    const refreshTokenDoc = await RefreshToken.findOne({ token: hashedRefreshToken,expiresAt:{ $gt: new Date() }});
     if (!refreshTokenDoc) {
       return  res.status(401).json({ error: "invalid refresh token" });
     }
@@ -145,43 +122,28 @@ export const AccessRefreshToken = async (req, res, ) => {
       return  res.status(401).json({ error: "user not found" });
     }
     const accessToken = jwt.sign({
-      id: user._id,
-      role:user.role,}, 
+       id: user._id,
+       role:user.role,}, 
        ACCESS_TOKEN_SECRET_KEY, 
        { expiresIn: ACCESS_TOKEN_EXPIRES_IN }
       );
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      maxAge: 15 * 60 * 1000,
-      secure:false,
-      sameSite:"strict"
-    });
     return res.status(200).json({ accessToken });
   }
   catch(error){
-    return res.status(400).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 
 }
 export const logOut = async (req, res, ) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
+    const {refreshToken} = req.body;
     if(!refreshToken){
       return res.status(401).json({ error: "refresh token not found" });
     
     }
-    const hashedRefreshToken = await crypto.createHash("sha256").update(refreshToken).digest("hex");
+    const hashedRefreshToken = crypto.createHash("sha256").update(refreshToken).digest("hex");
     await RefreshToken.deleteOne({ token: hashedRefreshToken });
-    res.clearCookie("accessToken",{
-      httpOnly:true,
-      secure:false,
-      sameSite:"strict"
-    });
-    res.clearCookie("refreshToken",{
-      httpOnly:true,
-      secure:false,
-      sameSite:"strict"
-    });
+
     return res.status(200).json({ message: "logged out successfully" });
     
   } catch (error) {
