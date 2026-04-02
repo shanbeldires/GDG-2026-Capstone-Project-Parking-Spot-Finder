@@ -69,4 +69,6 @@ parkingSpotSchema.methods.toAPIFormat = function (extraFields = {}) {
   };
 };
 
-export const ParkingSpot = mongoose.model("ParkingSpot", parkingSpotSchema)
+const ParkingSpot = mongoose.model("ParkingSpot", parkingSpotSchema)
+
+export default ParkingSpot;

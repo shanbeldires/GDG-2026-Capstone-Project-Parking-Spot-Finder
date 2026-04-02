@@ -1,4 +1,4 @@
-import { ParkingSpot } from "../models/parkingSpot.js";
+import ParkingSpot from "../models/parkingModel.js";
 
 // standard API response shape
 const respond = (res, statusCode, success, message, data = null) => {
