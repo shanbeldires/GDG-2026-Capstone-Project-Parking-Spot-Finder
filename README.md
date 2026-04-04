@@ -92,24 +92,35 @@ REFRESH_TOKEN_EXPIRES_IN=90d
 
 ```
 1. Authentication (/api/v1/auth)
-Method,Endpoint,Description,Auth Required
-POST,/register,Create a new user account,❌
-POST,/login,Login and receive tokens,❌
-POST,/refresh,Get new Access Token via Refresh Token,❌
-POST,/logout,Invalidate current refresh token,✅
-GET,/me,Retrieve current user profile,✅
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/register` | Create a new user account | ❌ |
+| **POST** | `/login` | Login and receive tokens | ❌ |
+| **POST** | `/refresh` | Get new Access Token via Refresh Token | ❌ |
+| **POST** | `/logout` | Invalidate current refresh token | ✅ |
+| **GET** | `/me` | Retrieve current user profile | ✅ |
 ```
 
 ---
 
 ```
-2. Parking Spots (/api/v1/parking-spots)MethodEndpointDescriptionAuth RequiredGET/Get active spots (Supports lat/lng filter)❌GET/:idGet specific parking spot by ID❌POST/Create a new parking spot✅ (Admin)PUT/:idUpdate parking spot details✅ (Admin)DELETE/:idSoft-delete a parking spot✅ (Admin)
+2. Parking Spots (/api/v1/parking-spots)
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/` | Get active spots (Supports lat/lng filter) | ❌ |
+| **GET** | `/:id` | Get specific parking spot by ID | ❌ |
+| **POST** | `/` | Create a new parking spot | ✅ (Admin) |
+| **PUT** | `/:id` | Update parking spot details | ✅ (Admin) |
+| **DELETE** | `/:id` | Soft-delete a parking spot | ✅ (Admin) |
 ```
 
 ---
 
 ```
-3. Reservations (/api/v1/reserve)MethodEndpointDescriptionAuth RequiredPOST/reserveReserve a slot (Decrements availability)✅
+3. Reservations (/api/v1/reserve)
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/reserve` | Reserve a slot (Decrements availability) | ✅ |
 ```
 
 ---
@@ -148,6 +159,7 @@ JSON
 
 Create Parking Spot
 
+```
 JSON
 {
 "name": "Main St Garage",
@@ -156,16 +168,19 @@ JSON
 "totalSlots": 100,
 "address": "123 Main St, Addis Ababa"
 }
+```
 
 ---
 
 Reserve Spot
 
+```
 JSON
 {
 "userId": "64f...",
 "parkingId": "64f..."
 }
+```
 
 ---
 
