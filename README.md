@@ -148,6 +148,26 @@ JSON
 ---
 
 ```
+Response:
+
+{
+  "message": "user created successfully",
+  "data": {
+    "_id": "64fbe97a2c5b2f0012345678",
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "role": "user",
+    "createdAt": "2026-04-04T18:00:00.000Z",
+    "updatedAt": "2026-04-04T18:00:00.000Z"
+  },
+  "accessToken": "<JWT_ACCESS_TOKEN>",
+  "refreshToken": "<JWT_REFRESH_TOKEN>"
+}
+```
+
+---
+
+```
 Login
 
 JSON
@@ -156,6 +176,28 @@ JSON
 "password": "securePassword123"
 }
 ```
+
+---
+
+```
+Response:
+
+{
+  "message": "user created successfully",
+  "data": {
+    "_id": "64fbe97a2c5b2f0012345678",
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "role": "user",
+    "createdAt": "2026-04-04T18:00:00.000Z",
+    "updatedAt": "2026-04-04T18:00:00.000Z"
+  },
+  "accessToken": "<JWT_ACCESS_TOKEN>",
+  "refreshToken": "<JWT_REFRESH_TOKEN>"
+}
+```
+
+---
 
 ---
 
@@ -176,6 +218,30 @@ JSON
 
 ---
 
+```
+Response:
+{
+  "success": true,
+  "message": "Parking spots retrieved successfully",
+  "data": [
+    {
+      "id": "64fc0b5f2c5b2f001234abcd",
+      "name": "Main St Garage",
+      "latitude": 9.03,
+      "longitude": 38.74,
+      "availableSlots": 49,
+      "totalSlots": 100,
+      "address": "123 Main St, Addis Ababa",
+      "distanceKm": 1.2
+    }
+  ]
+}
+```
+
+---
+
+---
+
 Reserve Spot
 
 ```
@@ -183,6 +249,18 @@ JSON
 {
 "userId": "64f...",
 "parkingId": "64f..."
+}
+```
+
+---
+
+```
+Response:
+{
+  "success": true,
+  "message": "Reservation confirmed",
+  "reservationId": "64fc0c6f2c5b2f001234efgh",
+  "availableSlots": 19
 }
 ```
 
