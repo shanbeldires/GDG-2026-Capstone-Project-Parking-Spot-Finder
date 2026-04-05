@@ -1,5 +1,5 @@
-import express from 'express'
-const router  = express.Router();
+import express from 'express';
+const router = express.Router();
 
 import {
   getAllParkingSpots,
@@ -10,13 +10,15 @@ import {
 } from "../controllers/parkingController.js";
 
 import { verifyToken } from "../middleware/authentication.js";
+import { authorization } from "../middleware/autherization.js";
 
+// Public — anyone can read
 router.get("/", getAllParkingSpots);
 router.get("/:id", getParkingSpotById);
 
-//  Protected routes — valid JWT required
-router.post("/", verifyToken, createParkingSpot);
-router.put("/:id", verifyToken, updateParkingSpot);
-router.delete("/:id", verifyToken, deleteParkingSpot);
+// Admin only — must be logged in AND have role "admin"
+router.post("/", verifyToken, authorization("admin"), createParkingSpot);
+router.put("/:id", verifyToken, authorization("admin"), updateParkingSpot);
+router.delete("/:id", verifyToken, authorization("admin"), deleteParkingSpot);
 
 export default router;
