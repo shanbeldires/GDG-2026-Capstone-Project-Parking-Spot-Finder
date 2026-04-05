@@ -4,6 +4,6 @@ import { verifyToken } from "../middleware/authentication.js";
 
 const router = express.Router();
 
-router.post("/reserve", verifyToken, reserveParking);
+router.post("/", verifyToken, reserveParking);
 
 export default router;
