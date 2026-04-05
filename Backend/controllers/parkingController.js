@@ -49,6 +49,8 @@ export const getAllParkingSpots = async (req, res) => {
   }
 };
 
+//  GET /parking-spots/:id
+//  Returns a single parking spot by MongoDB _id.
 export const getParkingSpotById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -70,6 +72,9 @@ export const getParkingSpotById = async (req, res) => {
   }
 };
 
+//  POST /parking-spots
+//  Creates a new parking spot.
+//  Protected — requires valid JWT.
 export const createParkingSpot = async (req, res) => {
   try {
     const { name, latitude, longitude, totalSlots, address } = req.body;
@@ -92,6 +97,9 @@ export const createParkingSpot = async (req, res) => {
   }
 };
 
+//  PUT /parking-spots/:id
+//  Updates a parking spot. Send only changed fields.
+//  Protected — requires valid JWT.
 export const updateParkingSpot = async (req, res) => {
   try {
     const { id } = req.params;
@@ -127,6 +135,9 @@ export const updateParkingSpot = async (req, res) => {
   }
 };
 
+//  DELETE /parking-spots/:id
+//  Soft-deletes (sets isActive = false).
+//  Protected — requires valid JWT.
 export const deleteParkingSpot = async (req, res) => {
   try {
     const { id } = req.params;

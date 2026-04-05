@@ -1,4 +1,4 @@
-import { ParkingSpot } from "../models/parkingSpot.js";
+import ParkingSpot from "../models/parkingModel.js";
 import Reservation from "../models/reservationModel.js";
 
 
