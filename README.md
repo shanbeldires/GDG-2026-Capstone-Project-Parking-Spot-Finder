@@ -345,7 +345,7 @@ Clone & Enter:
 
 ```
 Bash
-git clone [https://github.com/TOT8894/GDG-2026-Capstone-Project-Parking-Spot-Finder.git](https://github.com/TOT8894/GDG-2026-Capstone-Project-Parking-Spot-Finder.git)
+git clone https://github.com/TOT8894/GDG-2026-Capstone-Project-Parking-Spot-Finder.git
 cd GDG-2026-Capstone-Project-Parking-Spot-Finder
 ```
 
@@ -356,7 +356,6 @@ Install Dependencies:
 
 Bash
 npm install
-Run Development Mode:
 
 Bash
 npm run dev
@@ -364,6 +363,5 @@ npm run dev
 
 ---
 
-The API will run at http://localhost:5000.
-
+The API will run at https://gdg-2026-capstone-project-parking-spot.onrender.com
 ---
